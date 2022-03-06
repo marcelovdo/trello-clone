@@ -13,7 +13,7 @@ Building a small Trello clone to study Web development technology.
 - Docker containers
 - CI/CD
 
-<> # Getting Started with Create React App
+<!-- <> # Getting Started with Create React App
 <>
 <> This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 <>
@@ -84,3 +84,4 @@ Building a small Trello clone to study Web development technology.
 <>
 <> This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 <>
+ -->
