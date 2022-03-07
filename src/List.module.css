@@ -1,9 +1,9 @@
 .List {
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #ebecf0;
   width: 16rem;
-  height: 5rem;
+  height: 4.7rem;
   margin: 8px 7px 8px 7px;
   padding: 5px 7px 5px 7px;
   border-radius: 4px;

@@ -3,3 +3,17 @@
   background-color: #0079bf;
   height: 94vh;
 }
+
+.buttonAdd {
+  height: 2.5rem;
+  margin: 8px 7px 8px 7px;
+  background-color: #3d99ce;
+  border: none;
+  border-radius: 4px;
+  width: 16rem;
+  color: white;
+}
+
+.buttonAdd:hover {
+  background-color: #499fd1;
+}
