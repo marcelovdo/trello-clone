@@ -1,6 +1,5 @@
 .List {
   display: flex;
-  flex-direction: column;
   background-color: #ebecf0;
   width: 16rem;
   height: 4.7rem;
