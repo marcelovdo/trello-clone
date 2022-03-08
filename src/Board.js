@@ -4,19 +4,36 @@ import styles from "./Board.module.css";
 
 function Board() {
   const [listList, setListList] = useState(["To Do", "Doing", "Done"]);
+  const [isAddingList, setIsAddingList] = useState(false);
 
-  const addNewList = () => {
-    setListList((prev) => prev.concat("New List"));
+  const beginAdding = () => {
+    setIsAddingList(true);
+  };
+
+  const finishAdding = (listName) => {
+    setIsAddingList(false);
+    setListList((prev) => prev.concat(listName));
   };
 
   return (
     <div className={styles.Board}>
       {listList.map((listName, i) => {
-        return <List key={i} listName={listName} />;
+        return (
+          <List
+            key={i}
+            listName={listName}
+            isAddingList={false}
+            onFinishAdding={finishAdding}
+          />
+        );
       })}
-      <button className={styles.buttonAdd} onClick={addNewList}>
-        + Add Another List
-      </button>
+      {isAddingList ? (
+        <List listName={""} isAddingList={true} onFinishAdding={finishAdding} />
+      ) : (
+        <button className={styles["button-add"]} onClick={beginAdding}>
+          + Add Another List
+        </button>
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@
   height: 94vh;
 }
 
-.buttonAdd {
+.button-add {
   height: 2.5rem;
   margin: 8px 7px 8px 7px;
   background-color: #3d99ce;
@@ -14,6 +14,6 @@
   color: white;
 }
 
-.buttonAdd:hover {
+.button-add:hover {
   background-color: #499fd1;
 }
