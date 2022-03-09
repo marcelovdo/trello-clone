@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { XIcon } from "@heroicons/react/outline";
 import styles from "./List.module.css";
 
-function List({ listName, isAddingList, onFinishAdding }) {
+function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
   const [inputListName, setInputListName] = useState("");
 
   const handleSubmit = (e) => {
@@ -13,10 +14,19 @@ function List({ listName, isAddingList, onFinishAdding }) {
     setInputListName(e.target.value);
   };
 
+  const handleRemove = (e) => {
+    if (id !== null) {
+      onRemove(id);
+    }
+  };
+
   return (
     <div className={styles.List}>
       {!isAddingList ? (
-        listName
+        <>
+          {listName}
+          <XIcon className={styles["close-icon"]} onClick={handleRemove} />
+        </>
       ) : (
         <form onSubmit={handleSubmit}>
           <input
