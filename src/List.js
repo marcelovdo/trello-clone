@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { XIcon } from "@heroicons/react/outline";
+import { XIcon, PlusIcon } from "@heroicons/react/outline";
 import styles from "./List.module.css";
 
 function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
