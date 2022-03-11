@@ -24,8 +24,14 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     <div className={styles.List}>
       {!isAddingList ? (
         <>
-          {listName}
-          <XIcon className={styles["close-icon"]} onClick={handleRemove} />
+          <div className={styles["list-title"]}>
+            {listName}
+            <XIcon className={styles["close-icon"]} onClick={handleRemove} />
+          </div>
+          <div className={styles["list-add-card"]}>
+            <PlusIcon className={styles["plus-icon"]} />
+            Add a card
+          </div>
         </>
       ) : (
         <form onSubmit={handleSubmit}>

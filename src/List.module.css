@@ -1,16 +1,39 @@
 .List {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #2b3d5c;
   background-color: #ebecf0;
   width: 16rem;
   height: 4.7rem;
   margin: 8px 7px 8px 7px;
-  padding: 5px 7px 5px 7px;
+  padding: 0.7rem 1rem 0.9rem 1rem;
   border-radius: 4px;
+}
+
+.list-title {
+  display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.close-icon {
+.list-add-card {
+  display: flex;
+  color: #7e899c;
+  padding: 0.3rem;
+  border-radius: 4px;
+}
+
+.list-add-card:hover {
+  background-color: #d3d5de;
+}
+
+.close-icon,
+.plus-icon {
   display: flex;
   width: 1.2rem;
+}
+
+.plus-icon {
+  padding-right: 0.4rem;
 }
