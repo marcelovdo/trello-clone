@@ -13,7 +13,7 @@ function Board() {
 
   const finishAdding = (listName) => {
     setIsAddingList(false);
-    setListList((prev) => prev.concat(listName));
+    setListList((prev) => prev.concat([listName]));
   };
 
   const removeList = (id) => {
