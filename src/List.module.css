@@ -1,20 +1,21 @@
 .List {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: #2b3d5c;
-  background-color: #ebecf0;
   width: 16rem;
-  height: 4.7rem;
+  justify-content: space-between;
+  min-height: 4.7rem;
   margin: 8px 7px 8px 7px;
   padding: 0.7rem 1rem 0.9rem 1rem;
   border-radius: 4px;
+  color: #2b3d5c;
+  background-color: #ebecf0;
 }
 
 .list-title {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 0.5rem;
 }
 
 .list-add-card {

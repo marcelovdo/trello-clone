@@ -22,18 +22,16 @@ function Board() {
 
   return (
     <div className={styles.Board}>
-      {listList.map((listName, i) => {
-        return (
-          <List
-            key={i}
-            id={i}
-            listName={listName}
-            isAddingList={false}
-            onFinishAdding={finishAdding}
-            onRemove={removeList}
-          />
-        );
-      })}
+      {listList.map((listName, i) => (
+        <List
+          key={i}
+          id={i}
+          listName={listName}
+          isAddingList={false}
+          onFinishAdding={finishAdding}
+          onRemove={removeList}
+        />
+      ))}
       {isAddingList ? (
         <List
           id={null}
