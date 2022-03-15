@@ -7,19 +7,32 @@ import styles from "./List.module.css";
 function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
   const [inputListName, setInputListName] = useState("");
   const [cardList, setCardList] = useState([]);
+  const [cardName, setCardName] = useState("");
+  const [isAddingCard, setIsAddingCard] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmitList = (e) => {
     e.preventDefault();
     onFinishAdding(inputListName);
+    setInputListName("");
   };
 
-  const handleChange = (e) => {
+  const handleSubmitCard = (e) => {
+    e.preventDefault();
+    setCardList((prev) => prev.concat([cardName]));
+    setCardName("");
+    setIsAddingCard(false);
+  };
+
+  const handleChangeList = (e) => {
     setInputListName(e.target.value);
   };
 
+  const handleChangeCard = (e) => {
+    setCardName(e.target.value);
+  };
+
   const openCardInput = () => {
-    // toggle textarea
-    setCardList((prev) => prev.concat(["teste"]));
+    setIsAddingCard(true);
   };
 
   const removeCard = (id) => {
@@ -30,24 +43,39 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     <Card id={i} key={i} cardName={card} onRemove={removeCard} />
   ));
 
+  const addCardButtonMarkup = (
+    <div className={styles["list-add-card"]} onClick={openCardInput}>
+      <PlusIcon className={styles["plus-icon"]} />
+      Add a card
+    </div>
+  );
+
+  const addCardInputMarkup = (
+    <form onSubmit={handleSubmitCard}>
+      <textarea
+        value={cardName}
+        onChange={handleChangeCard}
+        placeholder="Enter a title for this card..."
+      />
+      <input type="submit" value="Add card" />
+    </form>
+  );
+
   const listMarkup = (
     <>
       <TitleClose id={id} name={listName} onRemove={onRemove} />
       {cardListMarkup}
-      <div className={styles["list-add-card"]} onClick={openCardInput}>
-        <PlusIcon className={styles["plus-icon"]} />
-        Add a card
-      </div>
+      {!isAddingCard ? addCardButtonMarkup : addCardInputMarkup}
     </>
   );
 
   const formAddListMarkup = (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmitList}>
       <input
         type="text"
         placeholder="Enter list title..."
         name="ltitle"
-        onChange={handleChange}
+        onChange={handleChangeList}
         value={inputListName}
         required
       />
