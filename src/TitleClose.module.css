@@ -1,0 +1,12 @@
+.TitleClose {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.close-icon {
+  display: flex;
+  width: 1.2rem;
+}

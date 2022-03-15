@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { XIcon, PlusIcon } from "@heroicons/react/outline";
+import { PlusIcon } from "@heroicons/react/outline";
 import Card from "./Card";
+import TitleClose from "./TitleClose";
 import styles from "./List.module.css";
 
 function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
@@ -16,27 +17,22 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     setInputListName(e.target.value);
   };
 
-  const handleRemove = () => {
-    if (id !== null) {
-      onRemove(id);
-    }
-  };
-
   const openCardInput = () => {
     // toggle textarea
     setCardList((prev) => prev.concat(["teste"]));
   };
 
+  const removeCard = (id) => {
+    setCardList((prev) => prev.filter((_, i) => i !== id));
+  };
+
   const cardListMarkup = cardList.map((card, i) => (
-    <Card key={i} cardName={card} />
+    <Card id={i} key={i} cardName={card} onRemove={removeCard} />
   ));
 
   const listMarkup = (
     <>
-      <div className={styles["list-title"]}>
-        {listName}
-        <XIcon className={styles["close-icon"]} onClick={handleRemove} />
-      </div>
+      <TitleClose id={id} name={listName} onRemove={onRemove} />
       {cardListMarkup}
       <div className={styles["list-add-card"]} onClick={openCardInput}>
         <PlusIcon className={styles["plus-icon"]} />

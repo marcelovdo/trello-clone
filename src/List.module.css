@@ -11,13 +11,6 @@
   background-color: #ebecf0;
 }
 
-.list-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
 .list-add-card {
   display: flex;
   color: #7e899c;
@@ -29,7 +22,6 @@
   background-color: #d3d5de;
 }
 
-.close-icon,
 .plus-icon {
   display: flex;
   width: 1.2rem;

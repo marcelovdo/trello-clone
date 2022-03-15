@@ -1,9 +1,12 @@
-//import { useState } from "react";
-//import { XIcon } from "@heroicons/react/outline";
+import TitleClose from "./TitleClose";
 import styles from "./Card.module.css";
 
-function Card({ cardName }) {
-  return <div className={styles.Card}>{cardName}</div>;
+function Card({ id, cardName, onRemove }) {
+  return (
+    <div className={styles.Card}>
+      <TitleClose id={id} name={cardName} onRemove={onRemove} />
+    </div>
+  );
 }
 
 export default Card;
