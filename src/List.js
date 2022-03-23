@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { PlusIcon } from "@heroicons/react/outline";
 import Card from "./Card";
 import TitleClose from "./TitleClose";
+import PlusButton from "./PlusButton";
 import styles from "./List.module.css";
 
 function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
@@ -43,13 +43,6 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     <Card id={i} key={i} cardName={card} onRemove={removeCard} />
   ));
 
-  const addCardButtonMarkup = (
-    <div className={styles["list-add-card"]} onClick={openCardInput}>
-      <PlusIcon className={styles["plus-icon"]} />
-      Add a card
-    </div>
-  );
-
   const addCardInputMarkup = (
     <form onSubmit={handleSubmitCard}>
       <textarea
@@ -65,7 +58,11 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     <>
       <TitleClose id={id} name={listName} onRemove={onRemove} />
       {cardListMarkup}
-      {!isAddingCard ? addCardButtonMarkup : addCardInputMarkup}
+      {!isAddingCard ? (
+        <PlusButton onClick={openCardInput} text={"Add a card"} />
+      ) : (
+        addCardInputMarkup
+      )}
     </>
   );
 
