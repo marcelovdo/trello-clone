@@ -1,0 +1,16 @@
+.AddCardButton {
+  display: flex;
+  color: #7e899c;
+  padding: 0.3rem;
+  border-radius: 4px;
+}
+
+.AddCardButton:hover {
+  background-color: #d3d5de;
+}
+
+.plus-icon {
+  display: flex;
+  width: 1.2rem;
+  padding-right: 0.4rem;
+}

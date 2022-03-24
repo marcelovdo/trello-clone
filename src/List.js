@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Card from "./Card";
 import TitleClose from "./TitleClose";
-import PlusButton from "./PlusButton";
+import AddCardButton from "./AddCardButton";
 import styles from "./List.module.css";
 
 function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
@@ -59,7 +59,7 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
       <TitleClose id={id} name={listName} onRemove={onRemove} />
       {cardListMarkup}
       {!isAddingCard ? (
-        <PlusButton onClick={openCardInput} text={"Add a card"} />
+        <AddCardButton onClick={openCardInput} />
       ) : (
         addCardInputMarkup
       )}

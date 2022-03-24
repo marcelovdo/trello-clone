@@ -1,6 +1,6 @@
 import { useState } from "react";
 import List from "./List";
-import { PlusIcon } from "@heroicons/react/outline";
+import AddListButton from "./AddListButton";
 import styles from "./Board.module.css";
 
 function Board() {
@@ -41,9 +41,7 @@ function Board() {
           onRemove={removeList}
         />
       ) : (
-        <button className={styles["button-add"]} onClick={beginAdding}>
-          <PlusIcon className={styles["plus-icon"]} /> Add Another List
-        </button>
+        <AddListButton onClick={beginAdding} />
       )}
     </div>
   );
