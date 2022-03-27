@@ -1,6 +1,7 @@
 import { useState } from "react";
 import List from "./List";
 import AddListButton from "./AddListButton";
+import FormAddList from "./FormAddList";
 import styles from "./Board.module.css";
 
 function Board() {
@@ -23,23 +24,10 @@ function Board() {
   return (
     <div className={styles.Board}>
       {listList.map((listName, i) => (
-        <List
-          key={i}
-          id={i}
-          listName={listName}
-          isAddingList={false}
-          onFinishAdding={finishAdding}
-          onRemove={removeList}
-        />
+        <List key={i} id={i} listName={listName} onRemove={removeList} />
       ))}
       {isAddingList ? (
-        <List
-          id={null}
-          listName={""}
-          isAddingList={true}
-          onFinishAdding={finishAdding}
-          onRemove={removeList}
-        />
+        <FormAddList onFinishAdding={finishAdding} />
       ) : (
         <AddListButton onClick={beginAdding} />
       )}

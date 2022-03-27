@@ -4,27 +4,16 @@ import TitleClose from "./TitleClose";
 import AddCardButton from "./AddCardButton";
 import styles from "./List.module.css";
 
-function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
-  const [inputListName, setInputListName] = useState("");
+function List({ id, listName, onRemove }) {
   const [cardList, setCardList] = useState([]);
   const [cardName, setCardName] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
-
-  const handleSubmitList = (e) => {
-    e.preventDefault();
-    onFinishAdding(inputListName);
-    setInputListName("");
-  };
 
   const handleSubmitCard = (e) => {
     e.preventDefault();
     setCardList((prev) => prev.concat([cardName]));
     setCardName("");
     setIsAddingCard(false);
-  };
-
-  const handleChangeList = (e) => {
-    setInputListName(e.target.value);
   };
 
   const handleChangeCard = (e) => {
@@ -54,8 +43,8 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
     </form>
   );
 
-  const listMarkup = (
-    <>
+  return (
+    <div className={styles.List}>
       <TitleClose id={id} name={listName} onRemove={onRemove} />
       {cardListMarkup}
       {!isAddingCard ? (
@@ -63,26 +52,6 @@ function List({ id, listName, isAddingList, onFinishAdding, onRemove }) {
       ) : (
         addCardInputMarkup
       )}
-    </>
-  );
-
-  const formAddListMarkup = (
-    <form onSubmit={handleSubmitList}>
-      <input
-        type="text"
-        placeholder="Enter list title..."
-        name="ltitle"
-        onChange={handleChangeList}
-        value={inputListName}
-        required
-      />
-      <input type="submit" value="Add list" />
-    </form>
-  );
-
-  return (
-    <div className={styles.List}>
-      {!isAddingList ? listMarkup : formAddListMarkup}
     </div>
   );
 }
