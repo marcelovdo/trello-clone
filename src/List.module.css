@@ -10,3 +10,11 @@
   color: #2b3d5c;
   background-color: #ebecf0;
 }
+
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
