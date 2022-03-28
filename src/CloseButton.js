@@ -3,12 +3,12 @@ import styles from "./CloseButton.module.css";
 
 function CloseButton({ id, onClose, size }) {
   const handleClose = () => {
-    if (id !== null) {
-      onClose(id);
-    }
+    onClose(id);
   };
 
-  return <XIcon className={styles.CloseButton} onClick={handleClose} />;
+  return (
+    <XIcon className={styles[`CloseButton-${size}`]} onClick={handleClose} />
+  );
 }
 
 export default CloseButton;

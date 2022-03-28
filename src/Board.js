@@ -12,6 +12,10 @@ function Board() {
     setIsAddingList(true);
   };
 
+  const closeAddlListForm = () => {
+    setIsAddingList(false);
+  };
+
   const finishAdding = (listName) => {
     setIsAddingList(false);
     setListList((prev) => prev.concat([listName]));
@@ -27,7 +31,10 @@ function Board() {
         <List key={i} id={i} listName={listName} onRemove={removeList} />
       ))}
       {isAddingList ? (
-        <FormAddList onFinishAdding={finishAdding} />
+        <FormAddList
+          onFinishAdding={finishAdding}
+          onClose={closeAddlListForm}
+        />
       ) : (
         <AddListButton onClick={beginAdding} />
       )}

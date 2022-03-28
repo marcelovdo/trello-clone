@@ -1,7 +1,8 @@
 import { useState } from "react";
+import CloseButton from "./CloseButton";
 import styles from "./FormAddList.module.css";
 
-function FormAddList({ onFinishAdding }) {
+function FormAddList({ onFinishAdding, onClose }) {
   const [inputListName, setInputListName] = useState("");
 
   const handleSubmitList = (e) => {
@@ -26,11 +27,14 @@ function FormAddList({ onFinishAdding }) {
         autoFocus
         required
       />
-      <input
-        type="submit"
-        value="Add list"
-        className={styles["list-input-button"]}
-      />
+      <div className={styles["list-input-button-bar"]}>
+        <input
+          type="submit"
+          value="Add list"
+          className={styles["list-input-button"]}
+        />
+        <CloseButton onClose={onClose} size="lg" />
+      </div>
     </form>
   );
 }

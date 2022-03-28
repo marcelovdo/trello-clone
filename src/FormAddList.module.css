@@ -20,6 +20,11 @@
   outline: none;
 }
 
+.list-input-button-bar {
+  display: flex;
+  flex-direction: row;
+}
+
 .list-input-button {
   color: white;
   border: none;
@@ -27,4 +32,5 @@
   background-color: #0079bf;
   padding: 0.4rem 0.6rem;
   width: 4rem;
+  margin-right: 0.5rem;
 }
