@@ -1,6 +1,6 @@
 Building a small Trello clone to study Web development.
 
-Client-sde code built with create-react-app.
+Client-side code built with create-react-app.
 
 <!--  # Getting Started with Create React App
 
