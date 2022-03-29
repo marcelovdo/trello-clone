@@ -1,17 +1,6 @@
-Building a small Trello clone to study Web development technology.
+Building a small Trello clone to study Web development.
 
-# Done
-
-# Next Steps
-
-- React App
-- Express API
-- Postgres DB
-- Authentication
-- GraphQL natively
-- GraphQL using Apollo
-- Docker containers
-- CI/CD
+Client-sde code built with create-react-app.
 
 <!--  # Getting Started with Create React App
 
