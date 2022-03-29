@@ -34,3 +34,7 @@
   width: 4rem;
   margin-right: 0.5rem;
 }
+
+.list-input-button:hover {
+  background-color: #0066a0;
+}

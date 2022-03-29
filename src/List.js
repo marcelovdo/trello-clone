@@ -24,6 +24,11 @@ function List({ id, listName, onRemove }) {
     setIsAddingCard(true);
   };
 
+  const closeCardInput = () => {
+    setCardName("");
+    setIsAddingCard(false);
+  };
+
   const removeCard = (id) => {
     setCardList((prev) => prev.filter((_, i) => i !== id));
   };
@@ -35,11 +40,20 @@ function List({ id, listName, onRemove }) {
   const addCardInputMarkup = (
     <form onSubmit={handleSubmitCard}>
       <textarea
+        className={styles["list-add-card-text"]}
         value={cardName}
         onChange={handleChangeCard}
         placeholder="Enter a title for this card..."
+        autoFocus
       />
-      <input type="submit" value="Add card" />
+      <div className={styles["list-add-card-button-bar"]}>
+        <input
+          className={styles["list-add-card-submit"]}
+          type="submit"
+          value="Add card"
+        />
+        <CloseButton onClose={closeCardInput} size="lg" />
+      </div>
     </form>
   );
 

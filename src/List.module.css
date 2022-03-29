@@ -18,3 +18,40 @@
   margin-bottom: 0.5rem;
   width: 100%;
 }
+
+.list-add-card-text {
+  display: flex;
+  background-color: white;
+  padding: 0.3rem;
+  border-radius: 4px;
+  margin: 0.25rem 0;
+  box-shadow: 0px 1px 1px grey;
+  font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-add-card-text:focus {
+  outline: none;
+}
+
+.list-add-card-button-bar {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5rem;
+}
+
+.list-add-card-submit {
+  display: flex;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  background-color: #0079bf;
+  padding: 0.4rem 0.6rem;
+  width: 4.8rem;
+  margin-right: 0.4rem;
+}
+
+.list-add-card-submit:hover {
+  background-color: #0066a0;
+}
