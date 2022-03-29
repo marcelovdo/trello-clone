@@ -7,7 +7,7 @@ Building a small Trello clone to study Web development technology.
 - React App
 - Express API
 - Postgres DB
-- Deployment
+- Authentication
 - GraphQL natively
 - GraphQL using Apollo
 - Docker containers
