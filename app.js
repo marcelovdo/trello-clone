@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 
@@ -10,12 +11,17 @@ let db = {
   Done: { _id: "2", cards: [] },
 };
 
+app.use(bodyParser.json());
+
 app.get("/lists", (req, res) => {
   const data = { listNames: Object.keys(db) };
   res.status(200).json(data);
 });
 
-app.post("/lists/new", (req, res) => {});
+app.post("/lists/new", (req, res) => {
+  db[`${req.body.listName}`] = { _id: "3", cards: [] };
+  res.status(200).json({ response: "List created successfully" });
+});
 
 app.get("/lists/:id/cards", (req, res) => {
   const data = {
