@@ -10,7 +10,10 @@ let db = {
   Done: [],
 };
 
-app.get("/lists", (req, res) => {});
+app.get("/lists", (req, res) => {
+  const data = { listNames: Object.keys(db) };
+  res.status(200).json(data);
+});
 
 app.post("/lists/new", (req, res) => {});
 
