@@ -1,14 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
 const port = 80;
 
 let db = {
-  "To Do": { _id: "0", cards: ["Task 1", "Task 2"] },
-  Doing: { _id: "1", cards: [] },
-  Done: { _id: "2", cards: [] },
+  "To Do": { _id: uuidv4(), cards: ["Task 1", "Task 2"] },
+  Doing: { _id: uuidv4(), cards: [] },
+  Done: { _id: uuidv4(), cards: [] },
 };
 
 app.use(bodyParser.json());
@@ -19,7 +20,7 @@ app.get("/lists", (req, res) => {
 });
 
 app.post("/lists/new", (req, res) => {
-  db[`${req.body.listName}`] = { _id: "3", cards: [] };
+  db[`${req.body.listName}`] = { _id: uuidv4(), cards: [] };
   res.status(200).json({ response: "List created successfully" });
 });
 
