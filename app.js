@@ -16,13 +16,27 @@ app.use(bodyParser.json());
 
 app.get("/lists", (req, res) => {
   const data = { listNames: Object.keys(db) };
-  console.log(db);
   res.status(200).json(data);
 });
 
 app.post("/lists/new", (req, res) => {
-  db[`${req.body.listName}`] = { _id: uuidv4(), cards: [] };
-  res.status(200).json({ response: "List created successfully" });
+  const newId = uuidv4();
+  db[`${req.body.listName}`] = { _id: newId, cards: [] };
+  res.status(200).json({
+    response: "List created successfully",
+    _id: newId,
+  });
+});
+
+app.delete("/lists/:id", (req, res) => {
+  for (let key in db) {
+    if (db[key]._id === req.params.id) {
+      delete db[key];
+    }
+  }
+  res.status(200).json({
+    response: "List deleted successfully",
+  });
 });
 
 app.get("/lists/:id/cards", (req, res) => {
@@ -35,11 +49,12 @@ app.get("/lists/:id/cards", (req, res) => {
 });
 
 app.post("/lists/:id/cards/new", (req, res) => {
+  const newId = uuidv4();
   const targetList = Object.values(db).find(
     (element) => element._id === req.params.id
   );
-  targetList.cards.push({ _id: uuidv4(), name: req.body.cardName });
-  res.status(200).json({ response: "Card created successfully" });
+  targetList.cards.push({ _id: newId, name: req.body.cardName });
+  res.status(200).json({ response: "Card created successfully", _id: newId });
 });
 
 app.listen(port, () => {
