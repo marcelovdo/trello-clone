@@ -60,3 +60,17 @@ app.post("/lists/:id/cards/new", (req, res) => {
 app.listen(port, () => {
   console.log(`Serving on port ${port}`);
 });
+
+app.delete("/lists/:listId/cards/:id", (req, res) => {
+  const targetList = Object.values(db).find(
+    (element) => element._id === req.params.listId
+  );
+  for (let i = 0; i < targetList.cards.length; i++) {
+    if (targetList.cards[i]._id === req.params.id) {
+      targetList.cards.splice(i, 1);
+    }
+  }
+  res.status(200).json({
+    response: "Card deleted successfully",
+  });
+});
