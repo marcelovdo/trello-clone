@@ -1,5 +1,5 @@
-import NavBar from "./NavBar";
-import Board from "./Board";
+import NavBar from "./sections/NavBar";
+import Board from "./sections/Board";
 import styles from "./App.module.css";
 
 function App() {

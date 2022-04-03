@@ -1,7 +1,7 @@
 import { useState } from "react";
 import List from "./List";
-import AddListButton from "./AddListButton";
-import FormAddList from "./FormAddList";
+import AddListButton from "../buttons/AddListButton";
+import FormAddList from "../forms/FormAddList";
 import styles from "./Board.module.css";
 
 function Board() {

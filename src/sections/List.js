@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Card from "./Card";
-import AddCardButton from "./AddCardButton";
-import CloseButton from "./CloseButton";
+import AddCardButton from "../buttons/AddCardButton";
+import CloseButton from "../buttons/CloseButton";
 import styles from "./List.module.css";
 
 function List({ id, listName, onRemove }) {

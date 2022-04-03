@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CloseButton from "./CloseButton";
+import CloseButton from "../buttons/CloseButton";
 import styles from "./FormAddList.module.css";
 
 function FormAddList({ onFinishAdding, onClose }) {
