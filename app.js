@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
@@ -12,6 +13,14 @@ let db = {
   Done: { _id: uuidv4(), cards: [] },
 };
 
+const corsOptions = {
+  // TODO: allow only specific origin
+  //origin: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "",
+  origin: "*",
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get("/lists", (req, res) => {
