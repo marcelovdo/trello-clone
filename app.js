@@ -24,7 +24,10 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get("/lists", (req, res) => {
-  const data = { listNames: Object.keys(db) };
+  const data = { lists: [] };
+  for (let key in db) {
+    data.lists.push({ _id: db[key]._id, name: key });
+  }
   res.status(200).json(data);
 });
 
