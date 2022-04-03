@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import List from "./List";
 import AddListButton from "../buttons/AddListButton";
 import FormAddList from "../forms/FormAddList";
+import { fetchLists } from "../data/ListData";
 import styles from "./Board.module.css";
 
 function Board() {
   const [listList, setListList] = useState(["To Do", "Doing", "Done"]);
   const [isAddingList, setIsAddingList] = useState(false);
+
+  useEffect(() => {
+    const fetchListData = async () => {
+      const result = await fetchLists();
+      setListList(result);
+    };
+    fetchListData();
+  }, []);
 
   const beginAdding = () => {
     setIsAddingList(true);

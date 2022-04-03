@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./Card";
 import AddCardButton from "../buttons/AddCardButton";
 import CloseButton from "../buttons/CloseButton";
