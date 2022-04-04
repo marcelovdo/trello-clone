@@ -3,6 +3,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 
+if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+}
+
 const app = express();
 
 let db = {
