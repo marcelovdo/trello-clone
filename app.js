@@ -5,8 +5,6 @@ const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
-const port = 80;
-
 let db = {
   "To Do": { _id: uuidv4(), cards: [] },
   Doing: { _id: uuidv4(), cards: [] },
@@ -82,6 +80,6 @@ app.delete("/lists/:listId/cards/:id", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Serving on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Serving on port ${process.env.PORT}`);
 });
