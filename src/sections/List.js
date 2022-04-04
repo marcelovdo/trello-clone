@@ -2,12 +2,21 @@ import { useEffect, useState } from "react";
 import Card from "./Card";
 import AddCardButton from "../buttons/AddCardButton";
 import CloseButton from "../buttons/CloseButton";
+import { fetchCards, postCard, deleteCard } from "../data/CardData";
 import styles from "./List.module.css";
 
 function List({ id, listName, onRemove }) {
   const [cardList, setCardList] = useState([]);
   const [cardName, setCardName] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+
+  useEffect(() => {
+    const fetchCardData = async () => {
+      const result = await fetchCards(id);
+      setCardList(result);
+    };
+    fetchCardData();
+  }, [id]);
 
   const handleSubmitCard = (e) => {
     e.preventDefault();
@@ -33,8 +42,13 @@ function List({ id, listName, onRemove }) {
     setCardList((prev) => prev.filter((_, i) => i !== id));
   };
 
-  const cardListMarkup = cardList.map((card, i) => (
-    <Card id={i} key={i} cardName={card} onRemove={removeCard} />
+  const cardListMarkup = cardList.map((card) => (
+    <Card
+      id={card._id}
+      key={card._id}
+      cardName={card.name}
+      onRemove={removeCard}
+    />
   ));
 
   const addCardInputMarkup = (
