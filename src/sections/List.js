@@ -18,9 +18,15 @@ function List({ id, listName, onRemove }) {
     fetchCardData();
   }, [id]);
 
-  const handleSubmitCard = (e) => {
+  const asyncPostCard = async (listId, cardName) => {
+    const cardId = await postCard(listId, cardName);
+    return cardId;
+  };
+
+  const handleSubmitCard = async (e) => {
     e.preventDefault();
-    setCardList((prev) => prev.concat([cardName]));
+    const cardId = await asyncPostCard(id, cardName);
+    setCardList((prev) => prev.concat([{ _id: cardId, name: cardName }]));
     setCardName("");
     setIsAddingCard(false);
   };
@@ -38,8 +44,9 @@ function List({ id, listName, onRemove }) {
     setIsAddingCard(false);
   };
 
-  const removeCard = (id) => {
-    setCardList((prev) => prev.filter((_, i) => i !== id));
+  const removeCard = (cardId) => {
+    deleteCard(id, cardId);
+    setCardList((prev) => prev.filter((card) => card._id !== cardId));
   };
 
   const cardListMarkup = cardList.map((card) => (
@@ -52,7 +59,7 @@ function List({ id, listName, onRemove }) {
   ));
 
   const addCardInputMarkup = (
-    <form onSubmit={handleSubmitCard}>
+    <form onSubmit={(e) => handleSubmitCard(e)}>
       <textarea
         className={styles["list-add-card-text"]}
         value={cardName}

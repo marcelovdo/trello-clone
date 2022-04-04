@@ -6,20 +6,24 @@ export const fetchCards = async (listId) => {
   return cards.cards;
 };
 
-export const postCard = async (cardName) => {
+export const postCard = async (listId, cardName) => {
   const fetchOptions = {
     method: "POST",
     body: JSON.stringify({ cardName: cardName }),
     headers: { "Content-Type": "application/json" },
   };
-  /*const response = await fetch(`${BACKEND_URL}/lists/new`, fetchOptions);
+  const response = await fetch(
+    `${BACKEND_URL}/lists/${listId}/cards/new`,
+    fetchOptions
+  );
   const resData = await response.json();
-  return resData._id;*/
+  console.log("response: ", resData);
+  return resData._id;
 };
 
-export const deleteCard = async (id) => {
+export const deleteCard = async (listId, cardId) => {
   const fetchOptions = {
     method: "DELETE",
   };
-  //await fetch(`${BACKEND_URL}/lists/${id}`, fetchOptions);
+  await fetch(`${BACKEND_URL}/lists/${listId}/cards/${cardId}`, fetchOptions);
 };
