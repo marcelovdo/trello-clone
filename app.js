@@ -53,9 +53,8 @@ app.delete("/lists/:id", (req, res) => {
 
 app.get("/lists/:id/cards", (req, res) => {
   const data = {
-    cardNames: Object.values(db).find(
-      (element) => element._id === req.params.id
-    ).cards,
+    cards: Object.values(db).find((element) => element._id === req.params.id)
+      .cards,
   };
   res.status(200).json(data);
 });
