@@ -68,10 +68,6 @@ app.post("/lists/:id/cards/new", (req, res) => {
   res.status(200).json({ response: "Card created successfully", _id: newId });
 });
 
-app.listen(port, () => {
-  console.log(`Serving on port ${port}`);
-});
-
 app.delete("/lists/:listId/cards/:id", (req, res) => {
   const targetList = Object.values(db).find(
     (element) => element._id === req.params.listId
@@ -84,4 +80,8 @@ app.delete("/lists/:listId/cards/:id", (req, res) => {
   res.status(200).json({
     response: "Card deleted successfully",
   });
+});
+
+app.listen(port, () => {
+  console.log(`Serving on port ${port}`);
 });
