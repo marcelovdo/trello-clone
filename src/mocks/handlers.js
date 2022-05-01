@@ -1,5 +1,4 @@
 import { rest } from "msw";
-//import { BACKEND_URL } from "../data/DataConfig";
 
 let mockId = 0;
 
@@ -27,8 +26,12 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ cards: list.cards }));
   }),
   rest.post("/lists/:listId/cards/new", (req, res, ctx) => {
-    console.log("MOCKED POST CARD");
-    return res(ctx.status(200));
+    const list = lists.find((item) => {
+      return item._id === parseInt(req.params.listId);
+    });
+    const newId = mockId++;
+    list.cards.push({ _id: newId, name: req.body.cardName });
+    return res(ctx.status(200), ctx.json({ response: "Success", _id: newId }));
   }),
   rest.delete("/lists/:listId/cards/:cardId", (req, res, ctx) => {
     console.log("MOCKED DELETE CARDS");
@@ -41,8 +44,9 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ lists: listResp }));
   }),
   rest.post("/lists/new", (req, res, ctx) => {
-    console.log("MOCKED POST LIST");
-    return res(ctx.status(200));
+    const newId = mockId++;
+    lists.push({ _id: newId, name: req.body.listName, cards: [] });
+    return res(ctx.status(200), ctx.json({ response: "Success", _id: newId }));
   }),
   rest.delete("/lists/:listId", (req, res, ctx) => {
     console.log("MOCKED DELETE LIST");
