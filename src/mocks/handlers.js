@@ -2,7 +2,7 @@ import { rest } from "msw";
 
 let mockId = 0;
 
-const lists = [
+let lists = [
   {
     _id: mockId++,
     name: "TestList1",
@@ -34,8 +34,13 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ response: "Success", _id: newId }));
   }),
   rest.delete("/lists/:listId/cards/:cardId", (req, res, ctx) => {
-    console.log("MOCKED DELETE CARDS");
-    return res(ctx.status(200));
+    const list = lists.find((item) => {
+      return item._id === parseInt(req.params.listId);
+    });
+    list.cards = list.cards.filter((item) => {
+      return item._id !== parseInt(req.params.cardId);
+    });
+    return res(ctx.status(200), ctx.json({ response: "Success" }));
   }),
   rest.get("/lists", (req, res, ctx) => {
     const listResp = lists.map((item) => {
@@ -49,7 +54,9 @@ export const handlers = [
     return res(ctx.status(200), ctx.json({ response: "Success", _id: newId }));
   }),
   rest.delete("/lists/:listId", (req, res, ctx) => {
-    console.log("MOCKED DELETE LIST");
-    return res(ctx.status(200));
+    lists = lists.filter((item) => {
+      return item._id !== parseInt(req.params.listId);
+    });
+    return res(ctx.status(200), ctx.json({ response: "Success" }));
   }),
 ];
