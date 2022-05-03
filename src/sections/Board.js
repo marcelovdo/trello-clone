@@ -3,16 +3,20 @@ import List from "./List";
 import AddListButton from "../buttons/AddListButton";
 import FormAddList from "../forms/FormAddList";
 import { fetchLists, postList, deleteList } from "../data/ListData";
+import LoadingSpinner from "./LoadingSpinner";
 import styles from "./Board.module.css";
 
 function Board() {
   const [listList, setListList] = useState([]);
   const [isAddingList, setIsAddingList] = useState(false);
+  const [isLoadingLists, setIsLoadingLists] = useState(false);
 
   useEffect(() => {
     const fetchListData = async () => {
+      setIsLoadingLists(true);
       const result = await fetchLists();
       setListList(result);
+      setIsLoadingLists(false);
     };
     fetchListData();
   }, []);
@@ -41,8 +45,17 @@ function Board() {
     setListList((prev) => prev.filter((list) => list._id !== id));
   };
 
-  return (
-    <div className={styles.Board}>
+  const renderButton = isAddingList ? (
+    <FormAddList
+      onFinishAdding={(listName) => finishAdding(listName)}
+      onClose={closeAddlListForm}
+    />
+  ) : (
+    <AddListButton onClick={beginAdding} />
+  );
+
+  const renderBoard = (
+    <>
       {listList.map((list) => (
         <List
           key={list._id}
@@ -51,14 +64,13 @@ function Board() {
           onRemove={removeList}
         />
       ))}
-      {isAddingList ? (
-        <FormAddList
-          onFinishAdding={(listName) => finishAdding(listName)}
-          onClose={closeAddlListForm}
-        />
-      ) : (
-        <AddListButton onClick={beginAdding} />
-      )}
+      {renderButton}
+    </>
+  );
+
+  return (
+    <div className={styles.Board}>
+      {isLoadingLists ? <LoadingSpinner /> : renderBoard}
     </div>
   );
 }
