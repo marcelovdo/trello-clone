@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "./Card";
 import AddCardButton from "../buttons/AddCardButton";
 import CloseButton from "../buttons/CloseButton";
+import LoadingSpinner from "./LoadingSpinner";
 import { fetchCards, postCard, deleteCard } from "../data/CardData";
 import styles from "./List.module.css";
 
@@ -9,11 +10,14 @@ function List({ id, listName, onRemove }) {
   const [cardList, setCardList] = useState([]);
   const [cardName, setCardName] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
+  const [isLoadingCards, setIsLoadingCards] = useState(false);
 
   useEffect(() => {
     const fetchCardData = async () => {
+      setIsLoadingCards(true);
       const result = await fetchCards(id);
       setCardList(result);
+      setIsLoadingCards(false);
     };
     fetchCardData();
   }, [id]);
@@ -78,18 +82,24 @@ function List({ id, listName, onRemove }) {
     </form>
   );
 
-  return (
-    <div className={styles.List}>
-      <div className={styles["list-title"]}>
-        {listName}
-        <CloseButton id={id} onClose={onRemove} size="sm" />
-      </div>
+  const cardsAndButtonMarkup = (
+    <>
       {cardListMarkup}
       {!isAddingCard ? (
         <AddCardButton onClick={openCardInput} />
       ) : (
         addCardInputMarkup
       )}
+    </>
+  );
+
+  return (
+    <div className={styles.List}>
+      <div className={styles["list-title"]}>
+        {listName}
+        <CloseButton id={id} onClose={onRemove} size="sm" />
+      </div>
+      {isLoadingCards ? <LoadingSpinner /> : cardsAndButtonMarkup}
     </div>
   );
 }

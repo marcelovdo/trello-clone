@@ -18,8 +18,13 @@ let lists = [
   },
 ];
 
+async function waitMillis(delayTime) {
+  await new Promise((r) => setTimeout(r, delayTime));
+}
+
 export const handlers = [
-  rest.get("/lists/:listId/cards", (req, res, ctx) => {
+  rest.get("/lists/:listId/cards", async (req, res, ctx) => {
+    await waitMillis(3000);
     const list = lists.find((item) => {
       return item._id === parseInt(req.params.listId);
     });
@@ -42,7 +47,8 @@ export const handlers = [
     });
     return res(ctx.status(200), ctx.json({ response: "Success" }));
   }),
-  rest.get("/lists", (req, res, ctx) => {
+  rest.get("/lists", async (req, res, ctx) => {
+    await waitMillis(3000);
     const listResp = lists.map((item) => {
       return { _id: item._id, name: item.name };
     });
