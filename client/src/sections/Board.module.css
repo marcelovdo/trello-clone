@@ -1,0 +1,6 @@
+.Board {
+  display: flex;
+  background-color: #0079bf;
+  height: 94vh;
+  align-items: flex-start;
+}

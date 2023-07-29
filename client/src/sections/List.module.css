@@ -1,0 +1,57 @@
+.List {
+  display: flex;
+  flex-direction: column;
+  width: 16rem;
+  justify-content: space-between;
+  /* min-height: 4.7rem; */
+  margin: 8px 7px 8px 7px;
+  padding: 0.7rem 1rem 0.9rem 1rem;
+  border-radius: 4px;
+  color: #2b3d5c;
+  background-color: #ebecf0;
+}
+
+.list-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.list-add-card-text {
+  display: flex;
+  background-color: white;
+  padding: 0.3rem;
+  border-radius: 4px;
+  margin: 0.25rem 0;
+  box-shadow: 0px 1px 1px grey;
+  font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-add-card-text:focus {
+  outline: none;
+}
+
+.list-add-card-button-bar {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5rem;
+}
+
+.list-add-card-submit {
+  display: flex;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  background-color: #0079bf;
+  padding: 0.4rem 0.6rem;
+  width: 4.8rem;
+  margin-right: 0.4rem;
+}
+
+.list-add-card-submit:hover {
+  background-color: #0066a0;
+}
