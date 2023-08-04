@@ -4,6 +4,7 @@ services:
     ports: 
       - '80:80'
     volumes:
+      - logs:/app/logs
       - ./server:/app
       - /app/node_modules
     env_file:
@@ -18,3 +19,6 @@ services:
     tty: true
     depends_on:
       - server
+
+volumes:
+  logs:

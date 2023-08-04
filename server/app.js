@@ -1,11 +1,20 @@
+const fs = require("fs");
+const path = require("path");
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config();
 }
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "logs", "access.log"),
+  { flags: "a" }
+);
 
 const app = express();
 
@@ -21,6 +30,8 @@ const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
 };
+
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
