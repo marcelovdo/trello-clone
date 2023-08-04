@@ -7,10 +7,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 
-if (process.env.NODE_ENV === "development") {
-  require("dotenv").config();
-}
-
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "logs", "access.log"),
   { flags: "a" }
