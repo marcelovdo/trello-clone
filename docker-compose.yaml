@@ -1,4 +1,10 @@
 services:
+  postgres:
+    image: 'postgres'
+    volumes:
+      - data:/var/lib/postgresql/data
+    env_file:
+      - ./env/db.env
   server:
     build: ./server
     ports: 
@@ -7,8 +13,10 @@ services:
       - logs:/app/logs
       - ./server:/app
       - /app/node_modules
-    environment:
-      - PORT=80
+    env_file:
+      - ./env/server.env
+    depends_on:
+      - postgres
   client:
     build: ./client
     ports:
@@ -23,4 +31,5 @@ services:
       - server
 
 volumes:
+  data:
   logs:
