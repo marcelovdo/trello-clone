@@ -8,6 +8,9 @@ import cors from "cors";
 import morgan from "morgan";
 import { v4 as uuidv4 } from "uuid";
 
+import postgres from "postgres";
+const sql = postgres({ /**/ });
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
