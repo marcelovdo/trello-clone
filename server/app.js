@@ -8,8 +8,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { v4 as uuidv4 } from "uuid";
 
-import postgres from "postgres";
-const sql = postgres({ /**/ });
+import sql from "./db.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +17,32 @@ const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "logs", "access.log"),
   { flags: "a" }
 );
+
+
+const seedDb = async () => {
+  // check if data already exists
+  await sql`delete from lists`;
+  await sql`drop table lists`;
+
+  const listList = ["To Do", "Doing", "Done"];
+
+  await sql`
+    create table lists (name text) 
+  `;
+
+  for (const name of listList) {
+    const lists = await sql`
+      insert into lists
+        (name)
+      values
+        (${ name })
+      returning name
+    `;
+  }
+};
+
+seedDb();
+
 
 const app = express();
 
