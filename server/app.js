@@ -23,26 +23,27 @@ const seedDb = async () => {
   // check if data already exists
   await sql`delete from lists`;
   await sql`drop table lists`;
-
-  const listList = ["To Do", "Doing", "Done"];
-
   await sql`
-    create table lists (name text) 
+    create table lists (
+      id uuid primary key,
+      name text
+    ) 
   `;
 
+  const listList = ["To Do", "Doing", "Done"];
+  
   for (const name of listList) {
     const lists = await sql`
       insert into lists
-        (name)
+        (id, name)
       values
-        (${ name })
+        (${ uuidv4() }, ${ name })
       returning name
     `;
-  }
+  }  
 };
 
 seedDb();
-
 
 const app = express();
 
@@ -64,29 +65,37 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-app.get("/lists", (req, res) => {
-  const data = { lists: [] };
-  for (let key in db) {
-    data.lists.push({ _id: db[key]._id, name: key });
-  }
+app.get("/lists", async (req, res) => {
+  const result = await sql`
+    select * from lists
+  `;
+  
+  const data = { lists: result };
+
   res.status(200).json(data);
 });
 
-app.post("/lists/new", (req, res) => {
-  const newId = uuidv4();
-  db[`${req.body.listName}`] = { _id: newId, cards: [] };
+app.post("/lists/new", async (req, res) => {
+  const result = await sql`
+    insert into lists
+      (id, name)
+    values
+      (${ uuidv4() }, ${ req.body.listName })
+    returning id
+  `;
+
   res.status(200).json({
     response: "List created successfully",
-    _id: newId,
+    id: result[0].id,
   });
 });
 
-app.delete("/lists/:id", (req, res) => {
-  for (let key in db) {
-    if (db[key]._id === req.params.id) {
-      delete db[key];
-    }
-  }
+app.delete("/lists/:id", async (req, res) => {
+  await sql`
+    delete from lists
+    where id = ${req.params.id}
+  `;
+
   res.status(200).json({
     response: "List deleted successfully",
   });
