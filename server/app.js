@@ -20,12 +20,6 @@ const accessLogStream = fs.createWriteStream(
 
 const app = express();
 
-let db = {
-  "To Do": { _id: uuidv4(), cards: [] },
-  Doing: { _id: uuidv4(), cards: [] },
-  Done: { _id: uuidv4(), cards: [] },
-};
-
 const corsOptions = {
   // TODO: allow only specific origin
   //origin: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "",

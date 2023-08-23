@@ -30,7 +30,7 @@ function List({ id, listName, onRemove }) {
   const handleSubmitCard = async (e) => {
     e.preventDefault();
     const cardId = await asyncPostCard(id, cardName);
-    setCardList((prev) => prev.concat([{ _id: cardId, name: cardName }]));
+    setCardList((prev) => prev.concat([{ id: cardId, name: cardName }]));
     setCardName("");
     setIsAddingCard(false);
   };
@@ -50,13 +50,13 @@ function List({ id, listName, onRemove }) {
 
   const removeCard = (cardId) => {
     deleteCard(id, cardId);
-    setCardList((prev) => prev.filter((card) => card._id !== cardId));
+    setCardList((prev) => prev.filter((card) => card.id !== cardId));
   };
 
   const cardListMarkup = cardList.map((card) => (
     <Card
-      id={card._id}
-      key={card._id}
+      id={card.id}
+      key={card.id}
       cardName={card.name}
       onRemove={removeCard}
     />

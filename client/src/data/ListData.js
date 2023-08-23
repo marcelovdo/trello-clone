@@ -14,7 +14,7 @@ export const postList = async (listName) => {
   };
   const response = await fetch(`${BACKEND_URL}/lists/new`, fetchOptions);
   const resData = await response.json();
-  return resData._id;
+  return resData.id;
 };
 
 export const deleteList = async (id) => {

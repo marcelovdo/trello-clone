@@ -37,12 +37,12 @@ function Board() {
   const finishAdding = async (listName) => {
     setIsAddingList(false);
     const id = await asyncPostList(listName);
-    setListList((prev) => prev.concat([{ name: listName, _id: id }]));
+    setListList((prev) => prev.concat([{ name: listName, id: id }]));
   };
 
   const removeList = (id) => {
     deleteList(id);
-    setListList((prev) => prev.filter((list) => list._id !== id));
+    setListList((prev) => prev.filter((list) => list.id !== id));
   };
 
   const renderButton = isAddingList ? (
@@ -58,8 +58,8 @@ function Board() {
     <>
       {listList.map((list) => (
         <List
-          key={list._id}
-          id={list._id}
+          key={list.id}
+          id={list.id}
           listName={list.name}
           onRemove={removeList}
         />

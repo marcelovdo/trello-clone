@@ -18,7 +18,7 @@ export const postCard = async (listId, cardName) => {
   );
   const resData = await response.json();
   console.log("response: ", resData);
-  return resData._id;
+  return resData.id;
 };
 
 export const deleteCard = async (listId, cardId) => {
