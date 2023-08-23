@@ -63,6 +63,11 @@ app.delete("/lists/:id", async (req, res) => {
     from list_cards
     where list_id = ${ req.params.id }
   `;
+  
+  await sql`
+    delete from list_cards
+    where list_id = ${ req.params.id }
+  `;
 
   for (const card of result) {
     await sql`
@@ -72,13 +77,8 @@ app.delete("/lists/:id", async (req, res) => {
   }
 
   await sql`
-    delete from list_cards
-    where list_id = ${ req.params.id }
-  `;
-
-  await sql`
     delete from lists
-    where id = ${req.params.id}
+    where id = ${ req.params.id }
   `;
 
   res.status(200).json({
