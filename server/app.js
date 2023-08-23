@@ -18,33 +18,6 @@ const accessLogStream = fs.createWriteStream(
   { flags: "a" }
 );
 
-
-const seedDb = async () => {
-  // check if data already exists
-  await sql`delete from lists`;
-  await sql`drop table lists`;
-  await sql`
-    create table lists (
-      id uuid primary key,
-      name text
-    ) 
-  `;
-
-  const listList = ["To Do", "Doing", "Done"];
-  
-  for (const name of listList) {
-    const lists = await sql`
-      insert into lists
-        (id, name)
-      values
-        (${ uuidv4() }, ${ name })
-      returning name
-    `;
-  }  
-};
-
-seedDb();
-
 const app = express();
 
 let db = {
@@ -101,21 +74,46 @@ app.delete("/lists/:id", async (req, res) => {
   });
 });
 
-app.get("/lists/:id/cards", (req, res) => {
-  const data = {
-    cards: Object.values(db).find((element) => element._id === req.params.id)
-      .cards,
-  };
-  res.status(200).json(data);
+app.get("/lists/:id/cards", async (req, res) => {
+  const cardIds = await sql`
+    select card_id
+    from list_cards
+    where list_id = ${ req.params.id }
+  `;
+
+  let cardNames = []
+  for (const id of cardIds) {
+    const result = await sql`
+      select name
+      from cards
+      where id = ${ id.card_id }
+    `;
+
+    cardNames.push(result[0].name);
+  }
+
+  res.status(200).json({ cards: cardNames });
 });
 
-app.post("/lists/:id/cards/new", (req, res) => {
-  const newId = uuidv4();
-  const targetList = Object.values(db).find(
-    (element) => element._id === req.params.id
-  );
-  targetList.cards.push({ _id: newId, name: req.body.cardName });
-  res.status(200).json({ response: "Card created successfully", _id: newId });
+app.post("/lists/:id/cards/new", async (req, res) => {
+  const result = await sql`
+    insert into cards
+      (id, name)
+    values
+      (${ uuidv4() }, ${ req.body.cardName })
+    returning id
+  `;
+
+  const newId = result[0].id;
+  
+  await sql`
+    insert into list_cards
+      (list_id, card_id)
+    values
+      (${ req.params.id }, ${ newId })
+  `;
+
+  res.status(200).json({ response: "Card created successfully", id: newId });
 });
 
 app.delete("/lists/:listId/cards/:id", (req, res) => {
