@@ -64,6 +64,24 @@ app.post("/lists/new", async (req, res) => {
 });
 
 app.delete("/lists/:id", async (req, res) => {
+  const result = await sql`
+    select card_id
+    from list_cards
+    where list_id = ${ req.params.id }
+  `;
+
+  for (const card of result) {
+    await sql`
+      delete from cards
+      where id = ${ card.card_id }
+    `;
+  }
+
+  await sql`
+    delete from list_cards
+    where list_id = ${ req.params.id }
+  `;
+
   await sql`
     delete from lists
     where id = ${req.params.id}
