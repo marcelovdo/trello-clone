@@ -89,7 +89,7 @@ app.get("/lists/:id/cards", async (req, res) => {
       where id = ${ id.card_id }
     `;
 
-    cardNames.push(result[0].name);
+    cardNames.push({ name: result[0].name, id: id.card_id });
   }
 
   res.status(200).json({ cards: cardNames });
@@ -116,15 +116,17 @@ app.post("/lists/:id/cards/new", async (req, res) => {
   res.status(200).json({ response: "Card created successfully", id: newId });
 });
 
-app.delete("/lists/:listId/cards/:id", (req, res) => {
-  const targetList = Object.values(db).find(
-    (element) => element._id === req.params.listId
-  );
-  for (let i = 0; i < targetList.cards.length; i++) {
-    if (targetList.cards[i]._id === req.params.id) {
-      targetList.cards.splice(i, 1);
-    }
-  }
+app.delete("/lists/:listId/cards/:id", async (req, res) => {
+  await sql`
+    delete from list_cards
+    where card_id = ${ req.params.id }
+  `;
+
+  await sql`
+    delete from cards
+    where id = ${ req.params.id }
+  `;
+
   res.status(200).json({
     response: "Card deleted successfully",
   });
