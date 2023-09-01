@@ -1,4 +1,4 @@
-import sql from "./db.js";
+import sql from "./db/db.js";
 import { v4 as uuidv4 } from "uuid";
 
 const getLists = async (req, res) => {

@@ -5,6 +5,10 @@ services:
       - data:/var/lib/postgresql/data
     env_file:
       - ./env/db.env
+  postgres-test:
+    image: 'postgres'
+    env_file:
+      - ./env/db-test.env
   server:
     build: ./server
     ports: 
@@ -33,6 +37,7 @@ services:
     build: ./server
     depends_on: 
       - server
+      - postgres-test
     command: npm run test
 
 volumes:
