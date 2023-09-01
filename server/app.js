@@ -6,9 +6,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
-import { v4 as uuidv4 } from "uuid";
 
-import sql from "./db.js";
+import { getLists, createList, deleteList, getCards, createCard, deleteCard } from "./controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,118 +31,19 @@ app.use(morgan("combined", { stream: accessLogStream }));
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
-app.get("/lists", async (req, res) => {
-  const result = await sql`
-    select * from lists
-  `;
-  
-  const data = { lists: result };
+app.get("/lists", getLists);
 
-  res.status(200).json(data);
-});
+app.post("/lists/new", createList);
 
-app.post("/lists/new", async (req, res) => {
-  const result = await sql`
-    insert into lists
-      (id, name)
-    values
-      (${ uuidv4() }, ${ req.body.listName })
-    returning id
-  `;
+app.delete("/lists/:id", deleteList);
 
-  res.status(200).json({
-    response: "List created successfully",
-    id: result[0].id,
-  });
-});
+app.get("/lists/:id/cards", getCards);
 
-app.delete("/lists/:id", async (req, res) => {
-  const result = await sql`
-    select card_id
-    from list_cards
-    where list_id = ${ req.params.id }
-  `;
-  
-  await sql`
-    delete from list_cards
-    where list_id = ${ req.params.id }
-  `;
+app.post("/lists/:id/cards/new", createCard);
 
-  for (const card of result) {
-    await sql`
-      delete from cards
-      where id = ${ card.card_id }
-    `;
-  }
-
-  await sql`
-    delete from lists
-    where id = ${ req.params.id }
-  `;
-
-  res.status(200).json({
-    response: "List deleted successfully",
-  });
-});
-
-app.get("/lists/:id/cards", async (req, res) => {
-  const cardIds = await sql`
-    select card_id
-    from list_cards
-    where list_id = ${ req.params.id }
-  `;
-
-  let cardNames = []
-  for (const id of cardIds) {
-    const result = await sql`
-      select name
-      from cards
-      where id = ${ id.card_id }
-    `;
-
-    cardNames.push({ name: result[0].name, id: id.card_id });
-  }
-
-  res.status(200).json({ cards: cardNames });
-});
-
-app.post("/lists/:id/cards/new", async (req, res) => {
-  const result = await sql`
-    insert into cards
-      (id, name)
-    values
-      (${ uuidv4() }, ${ req.body.cardName })
-    returning id
-  `;
-
-  const newId = result[0].id;
-  
-  await sql`
-    insert into list_cards
-      (list_id, card_id)
-    values
-      (${ req.params.id }, ${ newId })
-  `;
-
-  res.status(200).json({ response: "Card created successfully", id: newId });
-});
-
-app.delete("/lists/:listId/cards/:id", async (req, res) => {
-  await sql`
-    delete from list_cards
-    where card_id = ${ req.params.id }
-  `;
-
-  await sql`
-    delete from cards
-    where id = ${ req.params.id }
-  `;
-
-  res.status(200).json({
-    response: "Card deleted successfully",
-  });
-});
+app.delete("/lists/:listId/cards/:id", deleteCard);
 
 app.listen(process.env.PORT, () => {
   console.log(`Serving on port ${process.env.PORT}`);
 });
+
