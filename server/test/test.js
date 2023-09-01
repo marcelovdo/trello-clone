@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import { getLists, createList, deleteList, getCards, createCard, deleteCard } from '../controller.js';
+import { v4 as uuidv4 } from "uuid";
 
 import sql from '../db/db-test.js';
 
-describe('Controllers', async function() {
+describe('Controllers - Test Database', async function() {
   before(async function() {
     await sql`
       create table cards (
@@ -28,8 +29,46 @@ describe('Controllers', async function() {
     `;
   })
   
-  it('', async function () {
-    
+  it('should return lists when getting lists with status', async function () {
+    const idList = [uuidv4(), uuidv4(), uuidv4()];
+    const nameList = ["Test1", "Test2", "Test3"];
+
+    for (let i = 0; i < idList.length; i++) {
+      await sql`
+        insert into lists
+          (id, name)
+        values
+          (${ idList[i] }, ${ nameList[i] })
+      `;
+    }
+
+    let savedStatus;
+    let savedResp;
+
+    const req = {};
+    const res = {
+      status: function (stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function (resp) {
+        savedResp = resp;
+      }
+    };
+
+    await getLists(req, res);
+
+    expect(savedStatus).to.equal(200);
+    expect(savedResp).to.have.property('lists');
+    expect(savedResp.lists).to.have.lengthOf(idList.length);
+    for (const list of savedResp.lists) {
+      expect(list).to.have.property('id');
+      expect(list).to.have.property('name');
+      expect(idList).to.include(list.id);
+      expect(nameList).to.include(list.name);
+    }
+
+    await sql`delete from lists`;
   })
   
   after(async function() {
