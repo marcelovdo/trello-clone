@@ -71,6 +71,46 @@ describe('Controllers - Test Database', async function() {
     await sql`delete from lists`;
   })
   
+  it('should create a list and return response with id', async function () {
+    let savedStatus;
+    let savedResp;
+    const lName = 'Testing-name';
+
+    const req = {
+      body: {
+        listName: lName
+      }
+    };
+    const res = {
+      status: function (stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function (resp) {
+        savedResp = resp;
+      }
+    };
+
+    await createList(req, res);
+    
+    expect(savedStatus).to.equal(201);
+    expect(savedResp).to.have.property('response');
+    expect(savedResp.response).to.equal('List created successfully');
+    expect(savedResp).to.have.property('id');
+
+    const id = savedResp.id;
+    const result = await sql`
+      select name
+      from lists
+      where id = ${ id } 
+    `;
+    expect(result).to.have.lengthOf(1);
+    expect(result[0]).to.have.property('name');
+    expect(result[0].name).to.equal(lName);
+    
+    await sql`delete from lists`;
+  })
+  
   after(async function() {
     await sql`delete from list_cards`;
     await sql`delete from cards`;

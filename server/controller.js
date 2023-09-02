@@ -20,7 +20,7 @@ const createList = async (req, res) => {
     returning id
   `;
 
-  res.status(200).json({
+  res.status(201).json({
     response: "List created successfully",
     id: result[0].id,
   });
