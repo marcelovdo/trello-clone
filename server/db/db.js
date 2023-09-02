@@ -2,11 +2,11 @@ import postgres from "postgres";
 import { v4 as uuidv4 } from "uuid";
 
 const sql = postgres({
-  host: "postgres",
+  host: process.env.POSTGRES_HOST,
   port: 5432,
-  database: "postgres",
-  username: "postgres",
-  password: "1234",
+  database: process.env.POSTGRES_DB,
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
 });
 
 const seedDb = async () => {
@@ -54,7 +54,7 @@ const seedDb = async () => {
   }  
 };
 
-seedDb();
+//seedDb();
 
 export default sql;
 

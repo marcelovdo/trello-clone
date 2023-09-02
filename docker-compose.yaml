@@ -19,6 +19,7 @@ services:
       - /app/node_modules
     env_file:
       - ./env/server.env
+      - ./env/db.env
     depends_on:
       - postgres
   client:
@@ -38,6 +39,8 @@ services:
     depends_on: 
       - server
       - postgres-test
+    env_file:
+      - ./env/db-test.env
     command: npm run test
 
 volumes:

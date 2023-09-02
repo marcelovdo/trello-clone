@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { getLists, createList, deleteList, getCards, createCard, deleteCard } from '../controller.js';
 import { v4 as uuidv4 } from "uuid";
 
-import sql from '../db/db-test.js';
+import sql from '../db/db.js';
 
 describe('Controllers - Test Database', async function() {
   before(async function() {
