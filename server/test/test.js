@@ -195,6 +195,76 @@ describe('Controllers - Test Database', async function() {
     await sql`delete from lists`;
   })
   
+  it('should get cards from a list and return status 200', async function() {
+    const listId = uuidv4();
+    const listName = 'ListTest';
+    const cards = [
+      {
+        id: uuidv4(),
+        name: 'CardTest1'
+      },
+      {
+        id: uuidv4(),
+        name: 'CardTest2'
+      }
+    ];
+    const cardIds = cards.map((card) => card.id);
+    const cardNames = cards.map((card) => card.name);
+
+    await sql`
+      insert into lists
+        (id, name)
+      values
+        (${listId}, ${listName})
+    `;
+    for (const card of cards) {
+      await sql`
+        insert into cards
+          (id, name)
+        values
+          (${card.id}, ${card.name})
+      `;
+      await sql`
+        insert into list_cards
+          (list_id, card_id)
+        values
+          (${listId}, ${card.id})
+      `;
+    }
+    
+    const req = {
+      params: {
+        id: listId
+      }
+    };
+    let savedStatus;
+    let savedResp;
+    const res = {
+      status: function (stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function (resp) {
+        savedResp = resp;
+      }
+    };
+
+    await getCards(req, res);
+
+    expect(savedStatus).to.equal(200);
+    expect(savedResp).to.have.property('cards');
+    expect(savedResp.cards).to.have.lengthOf(cardIds.length);
+    for (const card of savedResp.cards) {
+      expect(card).to.have.property('id');
+      expect(card).to.have.property('name');
+      expect(cardIds).to.include(card.id);
+      expect(cardNames).to.include(card.name);
+    }
+
+    await sql`delete from list_cards`;
+    await sql`delete from cards`;
+  })
+
   after(async function() {
     await sql`delete from list_cards`;
     await sql`delete from cards`;
@@ -206,8 +276,3 @@ describe('Controllers - Test Database', async function() {
   })
 })
 
-//describe('Array', function () {
-//    it('should return -1 when the value is not present', function () {
-//      expect([1, 2, 3].indexOf(4)).to.equal(-1)
-//    })
-//})
