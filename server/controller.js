@@ -94,7 +94,7 @@ const createCard = async (req, res) => {
       (${ req.params.id }, ${ newId })
   `;
 
-  res.status(200).json({ response: "Card created successfully", id: newId });
+  res.status(201).json({ response: "Card created successfully", id: newId });
 }
 
 const deleteCard = async (req, res) => {

@@ -111,7 +111,7 @@ describe('Controllers - Test Database', async function() {
     await sql`delete from lists`;
   })
 
-  it ('should delete list with all its cards and return response with status 200', async function () {
+  it ('should delete list with all of its cards and return response with status 200', async function () {
     let savedStatus;
     let savedResp;
     const id = uuidv4();
@@ -240,11 +240,11 @@ describe('Controllers - Test Database', async function() {
     let savedStatus;
     let savedResp;
     const res = {
-      status: function (stat) {
+      status: function(stat) {
         savedStatus = stat;
         return this;
       },
-      json: function (resp) {
+      json: function(resp) {
         savedResp = resp;
       }
     };
@@ -263,6 +263,134 @@ describe('Controllers - Test Database', async function() {
 
     await sql`delete from list_cards`;
     await sql`delete from cards`;
+  })
+
+  it('should create new card in a specific list and return id and status 201', async function() {
+    const listId = uuidv4();
+    const listName = 'ListTest';
+    const cardName = 'CardTest';
+
+    await sql`
+      insert into lists
+        (id, name)
+      values
+        (${ listId }, ${ listName })
+    `;
+
+    const req = {
+      params: {
+        id: listId
+      },
+      body: {
+        cardName
+      }
+    };
+    let savedStatus;
+    let savedResp;
+    const res = {
+      status: function(stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function(resp) {
+        savedResp = resp;
+      }
+    };
+
+    await createCard(req, res);
+
+    expect(savedStatus).to.equal(201);
+    expect(savedResp).to.have.property('response');
+    expect(savedResp.response).to.equal('Card created successfully');
+    expect(savedResp).to.have.property('id');
+
+    const id = savedResp.id;
+    const resultCards = await sql`
+      select name
+      from cards
+      where id = ${ id }
+    `;
+    expect(resultCards).to.have.lengthOf(1);
+    expect(resultCards[0]).to.have.property('name');
+    expect(resultCards[0].name).to.equal(cardName);
+
+    const resultListCards = await sql`
+      select card_id
+      from list_cards
+      where list_id = ${ listId }
+    `;
+    const cardIds = resultListCards.map((result) => result.card_id);
+    expect(cardIds).to.include(id);
+
+    await sql`delete from list_cards`;
+    await sql`delete from cards`;
+    await sql`delete from lists`;
+  })
+
+  it('should delete card and return response with status 200', async function() {
+    const listId = uuidv4();
+    const listName = 'ListTest';
+    const cardId = uuidv4();
+    const cardName = 'CardTest';
+
+    await sql`
+      insert into lists
+        (id, name)
+      values
+        (${listId}, ${listName})
+    `;
+    await sql`
+      insert into cards
+        (id, name)
+      values
+        (${cardId}, ${cardName})
+    `;
+    await sql`
+      insert into list_cards
+        (list_id, card_id)
+      values
+        (${listId}, ${cardId})
+    `;
+
+    const req = {
+      params: {
+        id: cardId
+      }
+    };
+    let savedStatus;
+    let savedResp;
+    const res = {
+      status: function(stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function(resp) {
+        savedResp = resp;
+      }
+    };
+
+    await deleteCard(req, res);
+
+    expect(savedStatus).to.equal(200);
+    expect(savedResp).to.have.property('response');
+    expect(savedResp.response).to.equal('Card deleted successfully');
+    
+    let result = await sql`
+      select name
+      from cards
+      where id = ${ cardId }
+    `;
+    expect(result).to.have.lengthOf(0);
+    result = await sql`
+      select *
+      from list_cards
+      where card_id = ${ cardId }
+    `;
+    expect(result).to.have.lengthOf(0);
+
+    await sql`delete from list_cards`;
+    await sql`delete from cards`;
+    await sql`delete from lists`;
   })
 
   after(async function() {
