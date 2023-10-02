@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getLists, createList, deleteList, getCards, createCard, deleteCard } from '../controller.js';
+import { getLists, createList, deleteList, getCards, createCard, deleteCard, unknownRoute } from '../controller.js';
 import { v4 as uuidv4 } from "uuid";
 
 import sql from '../db/db.js';
@@ -391,6 +391,26 @@ describe('Controllers - Test Database', async function() {
     await sql`delete from list_cards`;
     await sql`delete from cards`;
     await sql`delete from lists`;
+  })
+  
+  it('should return status 404 for unknown route', function() {
+    let savedStatus;
+    let savedResp;
+    const res = {
+      status: function(stat) {
+        savedStatus = stat;
+        return this;
+      },
+      json: function(resp) {
+        savedResp = resp;
+      }
+    };
+    
+    unknownRoute(null, res);
+
+    expect(savedStatus).to.equal(404);
+    expect(savedResp).to.have.property('response');
+    expect(savedResp.response).to.equal('Resource not found');
   })
 
   after(async function() {

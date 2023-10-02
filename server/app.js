@@ -7,7 +7,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
 
-import { getLists, createList, deleteList, getCards, createCard, deleteCard } from "./controller.js";
+import { getLists, createList, deleteList, getCards, createCard, deleteCard, unknownRoute } from "./controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,6 +42,8 @@ app.get("/lists/:id/cards", getCards);
 app.post("/lists/:id/cards/new", createCard);
 
 app.delete("/lists/:listId/cards/:id", deleteCard);
+
+app.all("*", unknownRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Serving on port ${process.env.PORT}`);

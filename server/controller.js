@@ -113,5 +113,9 @@ const deleteCard = async (req, res) => {
   });
 }
 
-export { getLists, createList, deleteList, getCards, createCard, deleteCard };
+const unknownRoute = (req, res) => {
+  res.status(404).json({ response: "Resource not found" });
+}
+
+export { getLists, createList, deleteList, getCards, createCard, deleteCard, unknownRoute };
 
