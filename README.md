@@ -2,6 +2,8 @@
 
 A small Trello clone built to study Web development.
 
+![print](https://github.com/marcelovdo/trello-clone/assets/3495464/0ee189d4-099f-4cfe-9024-4a8330561fb5)
+
 ## Stack
 
 - *Server:* Node.js, Express, PostgreSQL
